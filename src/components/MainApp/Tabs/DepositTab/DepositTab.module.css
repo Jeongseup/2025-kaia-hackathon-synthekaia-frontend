@@ -1,0 +1,659 @@
+.container {
+  padding: 0;
+  background: white;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.welcomeBanner {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  padding: 24px 20px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.bannerContent {
+  position: relative;
+  z-index: 1;
+}
+
+.welcomeTitle {
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0 0 4px 0;
+  opacity: 0.9;
+}
+
+.appName {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.subtitle {
+  font-size: 12px;
+  opacity: 0.8;
+  margin: 0;
+}
+
+.lightningIcon {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  font-size: 24px;
+  opacity: 0.8;
+}
+
+.depositSection {
+  padding: 24px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0 0 20px 0;
+}
+
+.inputContainer {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.amountInput {
+  flex: 1;
+  padding: 16px;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  outline: none;
+  transition: border-color 0.2s ease;
+  background: #F9FAFB;
+}
+
+.amountInput:focus {
+  border-color: var(--primary-color);
+  background: white;
+}
+
+.currencyBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  background: white;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  min-width: 100px;
+}
+
+.currencyIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.currencyText {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.strategySection {
+  margin-bottom: 24px;
+}
+
+.strategyTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0 0 16px 0;
+}
+
+.allocationItem {
+  margin-bottom: 16px;
+}
+
+.allocationItem:last-child {
+  margin-bottom: 0;
+}
+
+.allocationHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.strategyInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.strategyIcon {
+  font-size: 14px;
+}
+
+.strategyName {
+  font-size: 13px;
+  color: var(--text-dark);
+}
+
+.percentage {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.progressBar {
+  height: 6px;
+  background: #f0f0f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 100%);
+  transition: width 0.3s ease;
+}
+
+.yieldInfo {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.yieldItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.yieldItem:last-child {
+  margin-bottom: 0;
+}
+
+.yieldLabel {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.yieldValue {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-color);
+}
+
+.connectButton {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 16px;
+}
+
+.connectButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(67, 182, 249, 0.3);
+}
+
+.connectButton:disabled {
+  background: #CBD5E0;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.strategyTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0 0 16px 0;
+}
+
+.allocationItem {
+  margin-bottom: 16px;
+}
+
+.allocationHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.strategyInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.strategyIcon {
+  font-size: 14px;
+}
+
+.strategyName {
+  font-size: 13px;
+  color: var(--text-dark);
+}
+
+.percentage {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.progressBar {
+  height: 6px;
+  background: #f0f0f0;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 100%);
+  transition: width 0.3s ease;
+}
+
+.yieldInfo {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.yieldItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.yieldItem:last-child {
+  margin-bottom: 0;
+}
+
+.yieldLabel {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.yieldValue {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent-color);
+}
+
+/* New deposit flow styles */
+.depositHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.tokenIcon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tokenSymbol {
+  font-size: 20px;
+}
+
+.walletInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding: 0 4px;
+}
+
+.walletLabel {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.maxButton {
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.commitmentSection {
+  margin-bottom: 24px;
+}
+
+.commitmentOptions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.commitmentOption {
+  flex: 1;
+  padding: 12px 8px;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.commitmentOption.active {
+  border-color: #FF6B35;
+  background: #FFF4F2;
+}
+
+.commitmentOption:first-child.active {
+  background: #FF6B35;
+  color: white;
+}
+
+.commitmentLabel {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.dripsInfo {
+  font-size: 11px;
+  color: var(--text-light);
+}
+
+.commitmentOption.active .dripsInfo {
+  color: inherit;
+}
+
+.expectedReturns {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.returnItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.returnItem:last-child {
+  margin-bottom: 0;
+}
+
+.returnLabel {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.returnValue {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.reviewButton {
+  width: 100%;
+  padding: 16px;
+  background: #2D3748;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reviewButton:disabled {
+  background: #CBD5E0;
+  cursor: not-allowed;
+}
+
+.reviewButton:hover:not(:disabled) {
+  background: #1A202C;
+  transform: translateY(-2px);
+}
+
+/* Review step styles */
+.reviewSection {
+  padding: 24px 20px;
+}
+
+.reviewHeader {
+  margin-bottom: 24px;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-dark);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.reviewContent {
+  text-align: center;
+}
+
+.reviewIcon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.dollarIcon {
+  font-size: 32px;
+}
+
+.reviewAmount {
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.reviewLabel {
+  font-size: 16px;
+  color: var(--text-light);
+  margin-bottom: 24px;
+}
+
+.commitmentInfo {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.commitmentRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.commitmentKey {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.commitmentValue {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.depositButton {
+  width: 100%;
+  padding: 16px;
+  background: #2D3748;
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.depositButton:hover {
+  background: #1A202C;
+  transform: translateY(-2px);
+}
+
+/* Permitting step styles */
+.permittingSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: 24px 20px;
+}
+
+.permittingContent {
+  text-align: center;
+}
+
+.permittingTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+}
+
+.permittingText {
+  font-size: 16px;
+  color: var(--text-light);
+  margin-bottom: 32px;
+}
+
+.loadingSpinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #FF6B35;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Success step styles */
+.successSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  padding: 24px 20px;
+}
+
+.successContent {
+  text-align: center;
+}
+
+.successIcon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.successTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+}
+
+.successText {
+  font-size: 16px;
+  color: var(--text-light);
+  margin-bottom: 32px;
+}
+
+.doneButton {
+  padding: 16px 32px;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.doneButton:hover {
+  background: #059669;
+  transform: translateY(-2px);
+}
+
+.footer {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-light);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .welcomeBanner {
+    padding: 20px 16px;
+  }
+  
+  .depositSection {
+    padding: 20px 16px;
+  }
+  
+  .inputContainer {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .currencySelect {
+    min-width: auto;
+  }
+}
