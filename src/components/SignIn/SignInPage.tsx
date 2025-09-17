@@ -56,7 +56,7 @@ export const SignInPage = ({ setIsLoggedIn }: SignInPageProps) => {
             Seamless USDT vault for Kaia DeFi Users
           </p>
           <p className={styles.subtitle}>
-            Deposit, Earn, Pay, And More!
+            Deposit, Earn, And Just Enjoy Your Coffee Time ☕
           </p>
         </div>
 

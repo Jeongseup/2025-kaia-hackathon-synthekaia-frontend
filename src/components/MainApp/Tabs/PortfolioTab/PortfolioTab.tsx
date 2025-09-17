@@ -5,7 +5,6 @@ import styles from "./PortfolioTab.module.css";
 import { STKAIA_DELTA_NEUTRAL_VAULT_ADDRESS} from '@/constants/StkaiaDeltaNeutralVaultAbi'
 import VaultABI from '@/constants/abis/StkaiaDeltaNeutralVault.json'
 import { useWalletAccountStore } from "@/components/Wallet/Account/auth.hooks";
-import {useKaiaWalletSdk} from "@/components/Wallet/Sdk/walletSdk.hooks";
 import { ethers } from 'ethers'
 
 interface VaultStatus {
@@ -15,6 +14,9 @@ interface VaultStatus {
   totalShares: bigint;
   leftoverUsdtInVault: bigint;
 }
+
+// Constants
+const STKAIA_PRICE_IN_USDT = 0.1641; // 1 stKAIA = 0.1641 USDT
 
 export const PortfolioTab = () => {
   const { account } = useWalletAccountStore();
@@ -37,25 +39,26 @@ export const PortfolioTab = () => {
         provider
       );
 
-      // Get vault status (similar to getVaultStatus() in test)
-      const [totalUsdtEverDeposited, totalUsdtCurrentlyShorted, currentStkAIABalance, totalShares, leftoverUsdtInVault] = await Promise.all([
-        vaultContract.totalAssets(), // Approximation - you might need to add getVaultStatus to ABI
-        BigInt(0), // Placeholder - would need actual short position data
-        BigInt(0), // Placeholder - would need actual stKAIA balance
-        vaultContract.totalSupply(),
-        BigInt(0), // Placeholder - would need leftover USDT data
-      ]);
-
+      // Get vault status using getVaultStatus() function
+      const vaultStatus = await vaultContract.getVaultStatus();
+      
       const status: VaultStatus = {
-        totalUsdtEverDeposited,
-        totalUsdtCurrentlyShorted,
-        currentStkAIABalance,
-        totalShares,
-        leftoverUsdtInVault,
+        totalUsdtEverDeposited: vaultStatus.totalUsdtEverDeposited,
+        totalUsdtCurrentlyShorted: vaultStatus.totalUsdtCurrentlyShorted,
+        currentStkAIABalance: vaultStatus.currentStkAIABalance,
+        totalShares: vaultStatus.totalShares,
+        leftoverUsdtInVault: vaultStatus.leftoverUsdtInVault,
       };
+
+      console.log("Total USDT Ever Deposited:", status.totalUsdtEverDeposited);
+      console.log("Total USDT Currently Shorted:", status.totalUsdtCurrentlyShorted);
+      console.log("Current stKAIA Balance:", status.currentStkAIABalance);
+      console.log("Total Shares:", status.totalShares);
+      console.log("Leftover USDT in Vault:", status.leftoverUsdtInVault);
 
       // Get user shares
       const shares = await vaultContract.balanceOf(account);
+      console.log("User Shares:", shares);
       
       setVaultStatus(status);
       setUserShares(shares);
@@ -73,11 +76,10 @@ export const PortfolioTab = () => {
   // Calculate vault total value and user asset value
   const calculateVaultValue = (status: VaultStatus, userShareBalance: bigint) => {
     // Mock price data - in production, fetch from price APIs
-    const stkaiaPriceInUsdt = 1.02; // 1 stKAIA = 1.02 USDT
     const shortPositionPnlMultiplier = 1.05; // 5% profit on short position
 
     // Convert bigint to numbers for calculation (be careful with precision)
-    const stkaiaValueInUsdt = Number(status.currentStkAIABalance) / Math.pow(10, 18) * stkaiaPriceInUsdt;
+    const stkaiaValueInUsdt = Number(status.currentStkAIABalance) / Math.pow(10, 18) * STKAIA_PRICE_IN_USDT;
     const shortPositionValueInUsdt = Number(status.totalUsdtCurrentlyShorted) / Math.pow(10, 6) * shortPositionPnlMultiplier;
     const leftoverUsdtValue = Number(status.leftoverUsdtInVault) / Math.pow(10, 6);
     
@@ -123,6 +125,31 @@ export const PortfolioTab = () => {
           </div>
         </div>
 
+        {/* Vault Statistics */}
+        <div className={styles.statisticsSection}>
+          <h4 className={styles.sectionTitle}>Vault Statistics</h4>
+          <div className={styles.statisticsGrid}>
+            <div className={styles.statCard}>
+              <div className={styles.statIcon}>💰</div>
+              <div className={styles.statContent}>
+                <div className={styles.statLabel}>Total Deposits</div>
+                <div className={styles.statValue}>
+                  {vaultStatus ? formatCurrency(Number(vaultStatus.totalUsdtEverDeposited) / Math.pow(10, 6)) : "$0.00"}
+                </div>
+              </div>
+            </div>
+            <div className={styles.statCard}>
+              <div className={styles.statIcon}>👥</div>
+              <div className={styles.statContent}>
+                <div className={styles.statLabel}>Total Shares</div>
+                <div className={styles.statValue}>
+                  {vaultStatus ? vaultStatus.totalShares.toString() : "0"}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* 2. Vault Asset Composition */}
         <div className={styles.compositionSection}>
           <h4 className={styles.sectionTitle}>Vault Asset Composition</h4>
@@ -143,14 +170,14 @@ export const PortfolioTab = () => {
                 <span className={styles.assetName}>stKAIA Holdings</span>
               </div>
               <span className={styles.assetValue}>
-                {vaultStatus ? formatCurrency(Number(vaultStatus.currentStkAIABalance) / Math.pow(10, 18) * 1.02) : "$0.00"}
+                {vaultStatus ? formatCurrency(Number(vaultStatus.currentStkAIABalance) / Math.pow(10, 18) * STKAIA_PRICE_IN_USDT) : "$0.00"}
               </span>
             </div>
             <div className={styles.assetDetails}>
               <span className={styles.assetAmount}>
                 {vaultStatus ? `${formatNumber(vaultStatus.currentStkAIABalance, 18)} stKAIA` : "0 stKAIA"}
               </span>
-              <span className={styles.assetPrice}>@ $1.02 per stKAIA</span>
+              <span className={styles.assetPrice}>@ ${STKAIA_PRICE_IN_USDT} per stKAIA</span>
             </div>
           </div>
 
@@ -206,15 +233,9 @@ export const PortfolioTab = () => {
           <h4 className={styles.sectionTitle}>Share Information</h4>
           <div className={styles.shareCard}>
             <div className={styles.shareRow}>
-              <span className={styles.shareLabel}>Total Shares Minted</span>
-              <span className={styles.shareValue}>
-                {vaultStatus ? formatNumber(vaultStatus.totalShares, 18) : "0"}
-              </span>
-            </div>
-            <div className={styles.shareRow}>
               <span className={styles.shareLabel}>Your Shares</span>
               <span className={styles.shareValue}>
-                {formatNumber(userShares, 18)}
+                {userShares.toString()}
               </span>
             </div>
             <div className={styles.shareRow}>
