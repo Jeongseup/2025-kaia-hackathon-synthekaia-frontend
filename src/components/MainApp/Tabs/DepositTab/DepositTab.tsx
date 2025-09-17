@@ -232,7 +232,15 @@ export const DepositTab = () => {
           <div className={styles.allocationItem}>
             <div className={styles.allocationHeader}>
               <div className={styles.strategyInfo}>
-                <span className={styles.strategyIcon}>🔵</span>
+                <span className={styles.strategyIcon}>
+                  <svg width="14" height="14" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                    <circle fill="#040404" cx="256" cy="256" r="256"/>
+                    <path fill="#BFF007" d="M258.7,180.3c0-12,9.8-21.7,21.8-21.7h39.1v-52.9h-39.1c-41.4,0-75,33.4-75,74.6c0,10.7,2.3,21,6.4,30.2
+                      c-32.2,13.5-53.5,42.3-58.5,78.7c-5.8,39.9,10.3,83,45.3,103.9c31.3,19.6,80.1,18.3,106.5-8.9v18h54.4V202h-79.1
+                      C268.5,202,258.7,192.3,258.7,180.3 M306.5,254.9v50.2c-0.1,27.8-22.7,50.3-50.5,50.2c-27.8,0.1-50.4-22.4-50.5-50.2
+                      c0.1-27.8,22.7-50.3,50.5-50.2H306.5z"/>
+                  </svg>
+                </span>
                 <span className={styles.strategyName}>Liquid Staking (stKAIA)</span>
               </div>
               <span className={styles.percentage}>50%</span>
@@ -245,8 +253,16 @@ export const DepositTab = () => {
           <div className={styles.allocationItem}>
             <div className={styles.allocationHeader}>
               <div className={styles.strategyInfo}>
-                <span className={styles.strategyIcon}>🔵</span>
-                <span className={styles.strategyName}>BTC Short Position (3x)</span>
+                <span className={styles.strategyIcon}>
+                  <svg width="14" height="14" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                    <circle fill="#DC2626" cx="256" cy="256" r="256"/>
+                    <path fill="#FFF1F2" d="M258.7,180.3c0-12,9.8-21.7,21.8-21.7h39.1v-52.9h-39.1c-41.4,0-75,33.4-75,74.6c0,10.7,2.3,21,6.4,30.2
+                      c-32.2,13.5-53.5,42.3-58.5,78.7c-5.8,39.9,10.3,83,45.3,103.9c31.3,19.6,80.1,18.3,106.5-8.9v18h54.4V202h-79.1
+                      C268.5,202,258.7,192.3,258.7,180.3 M306.5,254.9v50.2c-0.1,27.8-22.7,50.3-50.5,50.2c-27.8,0.1-50.4-22.4-50.5-50.2
+                      c0.1-27.8,22.7-50.3,50.5-50.2H306.5z"/>
+                  </svg>
+                </span>
+                <span className={styles.strategyName}>KAIA Short Position (1x)</span>
               </div>
               <span className={styles.percentage}>50%</span>
             </div>
