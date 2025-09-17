@@ -272,7 +272,7 @@ export const DepositTab = () => {
           </div>
         </div>
 
-        {/* Yield Information */}
+{/* Yield Information */}
         <div className={styles.yieldInfo}>
           <div className={styles.yieldItem}>
             <span className={styles.yieldLabel}>Expected Monthly Yield</span>
