@@ -84,6 +84,205 @@
   opacity: 0.9;
 }
 
+.shareInfo {
+  font-size: 11px;
+  color: var(--text-light);
+  margin: 4px 0 0 0;
+  opacity: 0.8;
+}
+
+/* Vault Overview */
+.vaultOverview {
+  margin-bottom: 24px;
+}
+
+.overviewCard {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  border-radius: 16px;
+  padding: 20px;
+  color: white;
+  text-align: center;
+}
+
+.overviewTitle {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0 0 8px 0;
+  opacity: 0.9;
+}
+
+.overviewValue {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* 1. TVL Section */
+.tvlSection {
+  margin-bottom: 24px;
+}
+
+.tvlCard {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  border-radius: 16px;
+  padding: 24px;
+  color: white;
+  text-align: center;
+}
+
+.tvlTitle {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 12px 0;
+  opacity: 0.9;
+}
+
+.tvlAmount {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.tvlSubtitle {
+  font-size: 12px;
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* 2. Asset Composition Section */
+.compositionSection {
+  margin-bottom: 24px;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0 0 16px 0;
+}
+
+.assetCard {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.assetCard:last-child {
+  margin-bottom: 0;
+}
+
+.assetHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.assetTitleWithIcon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.assetName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.assetValue {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.assetDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.assetAmount {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.assetPrice {
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+.usdtIcon {
+  font-size: 16px;
+}
+
+/* 3. Share Section */
+.shareSection {
+  margin-bottom: 24px;
+}
+
+.shareCard {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.shareRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.shareRow:last-child {
+  margin-bottom: 0;
+}
+
+.shareLabel {
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.shareValue {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* 4. User Value Section */
+.userValueSection {
+  margin-bottom: 24px;
+}
+
+.userValueCard {
+  background: linear-gradient(135deg, var(--accent-color) 0%, #10B981 100%);
+  border-radius: 16px;
+  padding: 24px;
+  color: white;
+  text-align: center;
+}
+
+.userValueTitle {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 12px 0;
+  opacity: 0.9;
+}
+
+.userValueAmount {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.userValueSubtitle {
+  font-size: 12px;
+  margin: 0;
+  opacity: 0.8;
+}
+
 .positionsSection {
   margin-bottom: 24px;
 }
@@ -104,6 +303,18 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
+}
+
+.positionTitleWithIcon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.strategyIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .positionTitle {
@@ -145,10 +356,15 @@
   color: var(--text-dark);
 }
 
+.withdrawButtonContainer {
+  position: relative;
+  margin-bottom: 16px;
+}
+
 .withdrawButton {
   width: 100%;
   padding: 16px;
-  background: linear-gradient(135deg, var(--accent-color) 0%, var(--secondary-color) 100%);
+  background: linear-gradient(135deg, var(--accent-color) 0%, #10B981 100%);
   color: white;
   border: none;
   border-radius: 16px;
@@ -156,12 +372,44 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  margin-bottom: 16px;
 }
 
 .withdrawButton:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
+}
+
+.comingSoonTooltip {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 1000;
+}
+
+.comingSoonTooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.8);
+}
+
+.withdrawButtonContainer:hover .comingSoonTooltip {
+  opacity: 1;
+  visibility: visible;
 }
 
 .footer {

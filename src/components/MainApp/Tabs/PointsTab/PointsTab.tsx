@@ -8,7 +8,6 @@ export const PointsTab = () => {
       {/* Header */}
       <div className={styles.header}>
         <div className={styles.tabIndicator}>
-          <span className={styles.tabLabel}>Finance</span>
           <span className={`${styles.tabLabel} ${styles.active}`}>Point</span>
         </div>
       </div>
