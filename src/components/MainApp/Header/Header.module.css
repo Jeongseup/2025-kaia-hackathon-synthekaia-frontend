@@ -3,8 +3,10 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 20px;
-  background: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   color: white;
+  position: relative;
+  overflow: hidden;
 }
 
 .logoContainer {
@@ -42,9 +44,10 @@
 }
 
 .addressButton:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.15);
   color: rgba(255, 255, 255, 1);
   transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
 }
 
 .addressButton:active {
@@ -100,9 +103,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  color: #ef4444;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
   padding: 8px;
   border-radius: 12px;
@@ -110,9 +113,10 @@
 }
 
 .disconnectButton:hover {
-  background: rgba(239, 68, 68, 0.2);
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
   transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
 }
 
 .disconnectButton:active {

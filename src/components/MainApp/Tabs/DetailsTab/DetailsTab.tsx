@@ -9,7 +9,7 @@ export const DetailsTab = () => {
       <div className={styles.welcomeBanner}>
         <div className={styles.bannerContent}>
           <h2 className={styles.welcomeTitle}>Welcome to</h2>
-          <h1 className={styles.appName}>SynteKaia</h1>
+          <h1 className={styles.appName}>SyntheKaia</h1>
           <p className={styles.subtitle}>Hybrid DeFi Strategy Vault (stKAIA x Perp Short)</p>
           <div className={styles.lightningIcon}>⚡</div>
         </div>

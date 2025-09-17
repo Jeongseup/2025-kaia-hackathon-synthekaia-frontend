@@ -348,11 +348,37 @@ export const DepositTab = () => {
         <div className={styles.welcomeBanner}>
           <div className={styles.bannerContent}>
             <h2 className={styles.welcomeTitle}>Welcome to</h2>
-            <h1 className={styles.appName}>SynteKaia</h1>
+            <h1 className={styles.appName}>SyntheKaia</h1>
             <p className={styles.subtitle}>Hybrid DeFi Strategy Vault (stKAIA x Perp Short)</p>
-            <div className={styles.lightningIcon}>⚡</div>
+            <div className={styles.logoIcon}>
+              <svg width="60" height="60" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                {/* 배경: 둥근 사각형 */}
+                <rect width="100" height="100" rx="20" fill="rgba(255, 255, 255, 0.2)" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="2"/>
+                
+                {/* 금고 아이콘 그룹 */}
+                <g fill="none" stroke="white" strokeLinecap="round" strokeLinejoin="round">
+                  <g strokeWidth="3">
+                    {/* 금고 몸체 */}
+                    <path d="M25 20 H 75 A 5 5 0 0 1 80 25 V 75 A 5 5 0 0 1 75 80 H 25 A 5 5 0 0 1 20 75 V 25 A 5 5 0 0 1 25 20 Z"/>
+                    
+                    {/* 경첩 */}
+                    <path d="M80 30 L 85 30"/>
+                    <path d="M80 65 L 85 65"/>
+
+                    {/* 다리 */}
+                    <path d="M30 80 L 30 85"/>
+                    <path d="M70 80 L 70 85"/>
+                  </g>
+                  {/* 다이얼 */}
+                  <circle cx="50" cy="50" r="12" strokeWidth="2"/>
+                </g>
+
+                {/* T 글자 */}
+                <text x="50" y="58" fontFamily="Arial, sans-serif" fontSize="20" fontWeight="bold" fill="white" textAnchor="middle">T</text>
+              </svg>
+            </div>
+            </div>
           </div>
-        </div>
       )}
 
       {renderStepContent()}
