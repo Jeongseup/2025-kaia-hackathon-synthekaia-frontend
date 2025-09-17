@@ -53,8 +53,8 @@ export type Transaction = {
   from: string;
   to: string;
   data: string;
-  value: string;
-  gas: string;
+  value: string | null;
+  gas: string | null;
 };
 
 export const useKaiaWalletSdk = () => {
@@ -134,5 +134,6 @@ export const useKaiaWalletSdk = () => {
     getBalance,
     sendTransaction,
     getErc20TokenBalance,
+    walletProvider,
   };
 };

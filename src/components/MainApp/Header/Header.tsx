@@ -72,10 +72,12 @@ export const Header = ({ setIsLoggedIn }: HeaderProps) => {
       {/* Copy Toast */}
       {showCopyToast && (
         <div className={styles.copyToast}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <polyline points="20,6 9,17 4,12"/>
-          </svg>
-          Copied
+          <div className={styles.toastIcon}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <polyline points="20,6 9,17 4,12"/>
+            </svg>
+          </div>
+          <span className={styles.toastText}>Copied</span>
         </div>
       )} 
     </div>

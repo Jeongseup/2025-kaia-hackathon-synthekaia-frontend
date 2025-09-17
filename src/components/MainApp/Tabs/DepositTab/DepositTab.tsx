@@ -1,31 +1,58 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import styles from "./DepositTab.module.css";
 import { STKAIA_DELTA_NEUTRAL_VAULT_ADDRESS,  STKAIA_DELTA_NEUTRAL_VAULT_ABI} from '@/constants/StkaiaDeltaNeutralVaultAbi'
 import { MOCK_USDT_ADDRESS,  MOCK_USDT_ABI} from '@/constants/MockUSDTAbi'
 import { useWalletAccountStore } from "@/components/Wallet/Account/auth.hooks";
 import {useKaiaWalletSdk} from "@/components/Wallet/Sdk/walletSdk.hooks";
 import { ethers } from 'ethers'
+import { microUSDTHexToUSDTDecimal} from "@/utils/format";
 
 type DepositStep = "input" | "review" | "permitting" | "success";
 
 export const DepositTab = () => {
+  const vaultContractAddress = STKAIA_DELTA_NEUTRAL_VAULT_ADDRESS;    
+  const usdtContractAddress = MOCK_USDT_ADDRESS;
   const [amount, setAmount] = useState("");
   const [selectedCurrency] = useState("USDT");
   const [currentStep, setCurrentStep] = useState<DepositStep>("input");  
+  const [usdtBalance, setUsdtBalance] = useState<string>('0.00');
+  const [isLoadingBalance, setIsLoadingBalance] = useState(false);
   const { account } = useWalletAccountStore();
-  const { sendTransaction } = useKaiaWalletSdk();
-  // SyntheKaia Vault Contract Address (this would be the actual deployed contract address)
-  const vaultContractAddress = STKAIA_DELTA_NEUTRAL_VAULT_ADDRESS;
-      
-  // USDT Contract Address on Kaia (this would be the actual USDT contract address)
-  const usdtContractAddress = MOCK_USDT_ADDRESS;
-  
+  const { sendTransaction, getErc20TokenBalance } = useKaiaWalletSdk();
+
+  // Fetch USDT balance
+  const fetchUSDTBalance = useCallback(async () => {
+    if (!account || !usdtContractAddress) return;
+    
+    try {
+      setIsLoadingBalance(true);
+      const balance = await getErc20TokenBalance(usdtContractAddress, account);
+      const formattedBalance = Number(microUSDTHexToUSDTDecimal(balance as string)).toFixed(2);
+      setUsdtBalance(formattedBalance);
+    } catch (error) {
+      console.error("Failed to fetch USDT balance:", error);
+      setUsdtBalance('0.00');
+    } finally {
+      setIsLoadingBalance(false);
+    }
+  }, [account, usdtContractAddress, getErc20TokenBalance]);
+
+  // Fetch balance when component mounts or account changes
+  useEffect(() => {
+    fetchUSDTBalance();
+  }, [fetchUSDTBalance]);
 
   const handleDeposit = () => {
     if (!amount || parseFloat(amount) <= 0) return;
     setCurrentStep("review");
+  };
+
+  const handleMaxClick = () => {
+    if (usdtBalance && usdtBalance !== '0.00') {
+      setAmount(usdtBalance);
+    }
   };
 
   const handleReview = async () => {
@@ -36,6 +63,9 @@ export const DepositTab = () => {
       const result = await depositUSDT(parseFloat(amount));
       
       if (result.success) {
+        // Refresh balance after successful deposit
+        await fetchUSDTBalance();
+        
         // Show success after a brief delay
         setTimeout(() => {
           setCurrentStep("success");
@@ -163,8 +193,20 @@ export const DepositTab = () => {
         </div>
 
         <div className={styles.walletInfo}>
-          <span className={styles.walletLabel}>Wallet: 82.20</span>
-          <button className={styles.maxButton}>MAX</button>
+          <span className={styles.walletLabel}>
+            Wallet: {isLoadingBalance ? (
+              <span className={styles.loadingText}>Loading...</span>
+            ) : (
+              `${usdtBalance} USDT`
+            )}
+          </span>
+          <button 
+            className={styles.maxButton}
+            onClick={handleMaxClick}
+            disabled={isLoadingBalance || usdtBalance === '0.00'}
+          >
+            MAX
+          </button>
         </div>
 
         {/* Strategy Allocation */}
