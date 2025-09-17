@@ -8,13 +8,10 @@ import { MainApp } from "@/components/MainApp/MainApp";
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [keySequence, setKeySequence] = useState<string[]>([]);
+  const [, setKeySequence] = useState<string[]>([]);
   const router = useRouter();
   const { setAccount } = useWalletAccountStore();
   const { getAccount, disconnectWallet } = useKaiaWalletSdk();
-
-  // Secret key sequence to access dev page: "dev123"
-  const secretSequence = ['d', 'e', 'v', '1', '2', '3'];
 
   useEffect(() => {
     getAccount()
@@ -33,6 +30,9 @@ export default function Home() {
 
   // Handle keydown events for secret sequence
   useEffect(() => {
+    // Secret key sequence to access dev page: "dev123"
+    const secretSequence = ['d', 'e', 'v', '1', '2', '3'];
+    
     const handleKeyDown = (event: KeyboardEvent) => {
       const key = event.key.toLowerCase();
       
@@ -53,7 +53,7 @@ export default function Home() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [router, secretSequence]);
+  }, [router]);
 
   return (
     <>

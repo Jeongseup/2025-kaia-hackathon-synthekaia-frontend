@@ -12,8 +12,13 @@ export default function DevPage() {
   const [count, setCount] = useState<string>('0');
   const [isLoading, setIsLoading] = useState(false);
   const [txHash, setTxHash] = useState<string>('');
+  const [transferRecipient, setTransferRecipient] = useState<string>('');
+  const [transferAmount, setTransferAmount] = useState<string>('');
   const { account } = useWalletAccountStore();
   const { sendTransaction } = useKaiaWalletSdk();
+
+  // USDT contract address (Kairos testnet)
+  const USDT_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_MOCK_USDT_ADDRESS || "";
   
   // Fetch current count from contract
   const fetchCount = useCallback(async () => {
@@ -126,6 +131,64 @@ export default function DevPage() {
     }
   };
 
+  // Transfer USDT tokens
+  const handleTransferUSDT = async () => {
+    if (!account || !transferRecipient || !transferAmount) {
+      alert("Please fill in all fields and connect wallet");
+      return;
+    }
+
+    // Basic address validation
+    if (!transferRecipient.startsWith('0x') || transferRecipient.length !== 42) {
+      alert("Invalid recipient address format");
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      setTxHash('');
+
+      // Convert amount to wei (USDT has 6 decimals)
+      const amountInWei = ethers.parseUnits(transferAmount, 6);
+      
+      // ERC20 transfer function ABI
+      const erc20Interface = new ethers.Interface([
+        "function transfer(address to, uint256 amount) returns (bool)"
+      ]);
+      
+      const transferData = erc20Interface.encodeFunctionData('transfer', [
+        transferRecipient,
+        amountInWei
+      ]);
+
+      console.log('Transfer data:', transferData);
+      console.log('USDT Contract:', USDT_CONTRACT_ADDRESS);
+      console.log('Recipient:', transferRecipient);
+      console.log('Amount in wei:', amountInWei.toString());
+
+      const transferTx: Transaction = {
+        from: account,
+        to: USDT_CONTRACT_ADDRESS,
+        data: transferData,
+        value: "",
+        gas: ""
+      };
+
+      await sendTransaction([transferTx]);
+      setTxHash(`Transfer of ${transferAmount} USDT sent successfully!`);
+      
+      // Clear form
+      setTransferRecipient('');
+      setTransferAmount('');
+
+    } catch (error) {
+      console.error("Transfer failed:", error);
+      alert(`Transfer failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.devPanel}>
@@ -170,7 +233,37 @@ export default function DevPage() {
               onClick={() => handleSetNumber(0)}
               disabled={isLoading || !account}
             >
-              {isLoading ? "..." : "🔄 Reset to 0"}
+                {isLoading ? "..." : "🔄 Reset to 0"}
+            </button>
+          </div>
+        </div>
+
+        {/* ERC20 Transfer Controls */}
+        <div className={styles.controlsSection}>
+          <h3>ERC20 Token Transfer</h3>
+          <div className={styles.transferSection}>
+            <input
+              type="text"
+              placeholder="Recipient Address (0x...)"
+              value={transferRecipient}
+              onChange={(e) => setTransferRecipient(e.target.value)}
+              className={styles.addressInput}
+              disabled={isLoading}
+            />
+            <input
+              type="number"
+              placeholder="Amount (USDT)"
+              value={transferAmount}
+              onChange={(e) => setTransferAmount(e.target.value)}
+              className={styles.amountInput}
+              disabled={isLoading}
+            />
+            <button 
+              className={`${styles.actionButton} ${styles.transferButton}`}
+              onClick={handleTransferUSDT}
+              disabled={isLoading || !account || !transferRecipient || !transferAmount}
+            >
+              {isLoading ? "..." : "💸 Transfer USDT"}
             </button>
           </div>
         </div>

@@ -109,13 +109,13 @@ export const DepositTab = () => {
         from: account,
         to: usdtContractAddress,
         data: approveData,
-        value: "0x0",
-        gas: "0x5208" // 21000 in hex, will be estimated by wallet
+        value: "",
+        gas: "" 
       };
       
       await sendTransaction([approveTx]);
       console.log("Approve transaction sent successfully");
-      
+
       // Step 2: Deposit to vault
       const vaultInterface = new ethers.Interface(STKAIA_DELTA_NEUTRAL_VAULT_ABI);
       const depositData = vaultInterface.encodeFunctionData('deposit', [
@@ -129,8 +129,8 @@ export const DepositTab = () => {
         from: account,
         to: vaultContractAddress,
         data: depositData,
-        value: "0x0",
-        gas: "0x5208" // Will be estimated by wallet
+        value: "",
+        gas: "" // Will be estimated by wallet
       };
       
       await sendTransaction([depositTx]);
