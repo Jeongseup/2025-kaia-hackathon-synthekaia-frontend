@@ -14,9 +14,12 @@ export const WalletButton = ({setIsLoggedIn}:WalletButtonProps)=> {
 
   const handleClick = async () => {
     try {
-      const [account] = await connectAndSign("connect");
-      setAccount(account);
-      setIsLoggedIn(true);
+      const result = await connectAndSign("connect");
+      if (result) {
+        const [account] = result;
+        setAccount(account);
+        setIsLoggedIn(true);
+      }
     }
     catch (error: unknown) {
       console.log(error);

@@ -385,7 +385,7 @@ export const DepositTab = () => {
 
       {currentStep === "input" && (
         <div className={styles.footer}>
-          <span>Powered by stKAIA x k-bit PerpDEX</span>
+          <span>Powered by SyntheKaia</span>
         </div>
       )}
     </div>
