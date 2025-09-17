@@ -2,25 +2,116 @@
 
 import { useState } from "react";
 import styles from "./DepositTab.module.css";
+import { STKAIA_DELTA_NEUTRAL_VAULT_ADDRESS,  STKAIA_DELTA_NEUTRAL_VAULT_ABI} from '@/constants/StkaiaDeltaNeutralVaultAbi'
+import { MOCK_USDT_ADDRESS,  MOCK_USDT_ABI} from '@/constants/MockUSDTAbi'
+import { useWalletAccountStore } from "@/components/Wallet/Account/auth.hooks";
+import {useKaiaWalletSdk} from "@/components/Wallet/Sdk/walletSdk.hooks";
+import { ethers } from 'ethers'
 
 type DepositStep = "input" | "review" | "permitting" | "success";
 
 export const DepositTab = () => {
   const [amount, setAmount] = useState("");
   const [selectedCurrency] = useState("USDT");
-  const [currentStep, setCurrentStep] = useState<DepositStep>("input");
+  const [currentStep, setCurrentStep] = useState<DepositStep>("input");  
+  const { account } = useWalletAccountStore();
+  const { sendTransaction } = useKaiaWalletSdk();
+  // SyntheKaia Vault Contract Address (this would be the actual deployed contract address)
+  const vaultContractAddress = STKAIA_DELTA_NEUTRAL_VAULT_ADDRESS;
+      
+  // USDT Contract Address on Kaia (this would be the actual USDT contract address)
+  const usdtContractAddress = MOCK_USDT_ADDRESS;
+  
 
   const handleDeposit = () => {
     if (!amount || parseFloat(amount) <= 0) return;
     setCurrentStep("review");
   };
 
-  const handleReview = () => {
+  const handleReview = async () => {
     setCurrentStep("permitting");
-    // Simulate permission process
-    setTimeout(() => {
-      setCurrentStep("success");
-    }, 3000);
+    
+    try {
+      // Contract call for USDT deposit
+      const result = await depositUSDT(parseFloat(amount));
+      
+      if (result.success) {
+        // Show success after a brief delay
+        setTimeout(() => {
+          setCurrentStep("success");
+        }, 1500);
+      } else {
+        throw new Error("Deposit failed");
+      }
+    } catch (error) {
+      console.error("Deposit failed:", error);
+      // Show error message to user (you could add a toast/alert here)
+      alert(`Deposit failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      setCurrentStep("review");
+    }
+  };
+
+  const depositUSDT = async (amount: number) => {
+    if (!account) {
+      throw new Error("Wallet not connected");
+    }
+
+    try {
+      console.log(`Depositing ${amount} USDT to SyntheKaia vault...`);
+      
+      // Convert amount to wei (USDT has 6 decimals)
+      const amountInWei = ethers.parseUnits(amount.toString(), 6);
+      
+      // Step 1: Approve USDT spending
+      const mUSDTInterface = new ethers.Interface(MOCK_USDT_ABI);
+      const approveData = mUSDTInterface.encodeFunctionData('approve', [
+        vaultContractAddress, // spender
+        amountInWei // amount
+      ]);
+      
+      console.log('Approve data:', approveData);
+      console.log('USDT Contract:', usdtContractAddress);
+      console.log('Vault Contract:', vaultContractAddress);
+      console.log('Account:', account);
+      console.log('Amount in wei:', amountInWei.toString());
+      
+      const approveTx = {
+        from: account,
+        to: usdtContractAddress,
+        data: approveData,
+        value: "0x0",
+        gas: "0x5208" // 21000 in hex, will be estimated by wallet
+      };
+      
+      await sendTransaction([approveTx]);
+      console.log("Approve transaction sent successfully");
+      
+      // Step 2: Deposit to vault
+      const vaultInterface = new ethers.Interface(STKAIA_DELTA_NEUTRAL_VAULT_ABI);
+      const depositData = vaultInterface.encodeFunctionData('deposit', [
+        amountInWei, // assets
+        account // receiver
+      ]);
+      
+      console.log('Deposit data:', depositData);
+      
+      const depositTx = {
+        from: account,
+        to: vaultContractAddress,
+        data: depositData,
+        value: "0x0",
+        gas: "0x5208" // Will be estimated by wallet
+      };
+      
+      await sendTransaction([depositTx]);
+      console.log("Deposit transaction sent successfully");
+      
+      return { success: true };
+      
+    } catch (error) {
+      console.error("Contract call failed:", error);
+      throw error;
+    }
   };
 
   const handleBack = () => {
@@ -141,7 +232,12 @@ export const DepositTab = () => {
 
       <div className={styles.reviewContent}>
         <div className={styles.reviewIcon}>
-          <span className={styles.dollarIcon}>💰$</span>
+          <div className={styles.usdtIcon}>
+            <svg width="40" height="40" viewBox="0 0 339.43 295.27">
+              <path d="M62.15,1.45l-61.89,130a2.52,2.52,0,0,0,.54,2.94L167.95,294.56a2.55,2.55,0,0,0,3.53,0L338.63,134.4a2.52,2.52,0,0,0,.54-2.94l-61.89-130A2.5,2.5,0,0,0,275,0H64.45a2.5,2.5,0,0,0-2.3,1.45h0Z" fill="#50af95"/>
+              <path d="M191.19,144.8v0c-1.2.09-7.4,0.46-21.23,0.46-11,0-18.81-.33-21.55-0.46v0c-42.51-1.87-74.24-9.27-74.24-18.13s31.73-16.25,74.24-18.15v28.91c2.78,0.2,10.74.67,21.74,0.67,13.2,0,19.81-.55,21-0.66v-28.9c42.42,1.89,74.08,9.29,74.08,18.13s-31.65,16.24-74.08,18.12h0Zm0-39.25V79.68h59.2V40.23H89.21V79.68H148.4v25.86c-48.11,2.21-84.29,11.74-84.29,23.16s36.18,20.94,84.29,23.16v82.9h42.78V151.83c48-2.21,84.12-11.73,84.12-23.14s-36.09-20.93-84.12-23.15h0Zm0,0h0Z" fill="#fff"/>
+            </svg>
+          </div>
         </div>
         <div className={styles.reviewAmount}>{amount}</div>
         <div className={styles.reviewLabel}>You deposit</div>

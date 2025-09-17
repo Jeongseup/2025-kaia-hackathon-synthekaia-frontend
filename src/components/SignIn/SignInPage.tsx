@@ -15,45 +15,45 @@ export const SignInPage = ({ setIsLoggedIn }: SignInPageProps) => {
         {/* Logo Section */}
         <div className={styles.logoSection}>
           <div className={styles.logoContainer}>
-            <div className={styles.logoIcon}>
-              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-                <circle cx="20" cy="20" r="20" fill="var(--secondary-color)" />
-                <path d="M20 8L24 16H16L20 8Z" fill="white" />
-                <path d="M12 24L20 32L28 24H12Z" fill="white" />
-              </svg>
-            </div>
             <h1 className={styles.logoText}>SyntheKaia</h1>
           </div>
         </div>
 
-        {/* Vault Illustration */}
-        <div className={styles.illustration}>
-          <div className={styles.vault}>
-            <div className={styles.vaultBody}>
-              <div className={styles.vaultDoor}>
-                <div className={styles.vaultHandle}></div>
-              </div>
-              <div className={styles.vaultContent}>
-                <div className={styles.coins}>
-                  <span className={styles.coin}>💰</span>
-                  <span className={styles.coin}>💰</span>
-                </div>
-              </div>
-            </div>
-            <div className={styles.vaultBase}></div>
-          </div>
-          <div className={styles.sparkles}>
-            <div className={styles.sparkle}>✨</div>
-            <div className={styles.sparkle}>✨</div>
-            <div className={styles.sparkle}>✨</div>
-            <div className={styles.sparkle}>✨</div>
+        {/* Center Illustration */}
+        <div className={styles.centerIllustration}>
+          <div className={styles.logoIllustration}>
+          <svg width="150" height="150" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                {/* 배경: 둥근 파란색 사각형 */}
+                <rect width="100" height="100" rx="20" fill="#1DA1F2"/>
+
+                {/* 금고 아이콘 그룹 (흰색 선으로 그림) */}
+                <g fill="none" stroke="white" strokeLinecap="round" strokeLinejoin="round">
+                  <g strokeWidth="4">
+                    {/* 금고 몸체 (문) */}
+                    <path d="M25 20 H 75 A 5 5 0 0 1 80 25 V 75 A 5 5 0 0 1 75 80 H 25 A 5 5 0 0 1 20 75 V 25 A 5 5 0 0 1 25 20 Z"/>
+                    
+                    {/* 경첩 */}
+                    <path d="M80 30 L 85 30"/>
+                    <path d="M80 65 L 85 65"/>
+
+                    {/* 다리 */}
+                    <path d="M30 80 L 30 85"/>
+                    <path d="M70 80 L 70 85"/>
+                  </g>
+                  {/* 다이얼 */}
+                  <circle cx="50" cy="50" r="12"/>
+                </g>
+
+                {/* T 글자 */}
+                <text x="50" y="58" fontFamily="Arial, sans-serif" fontSize="22" fontWeight="bold" fill="white" textAnchor="middle">T</text>
+              </svg>
           </div>
         </div>
 
         {/* Description */}
         <div className={styles.description}>
           <p className={styles.title}>
-            SyntheKaia is Seamless USDT vault for Kaia DeFi Users:
+            Seamless USDT vault for Kaia DeFi Users
           </p>
           <p className={styles.subtitle}>
             Deposit, Earn, Pay, And More!

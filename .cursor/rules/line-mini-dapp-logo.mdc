@@ -1,0 +1,7 @@
+---
+description: Don't modify LINE mini dapp default logo 
+globs: Logo.tsx
+alwaysApply: true
+---
+
+When you try to change something in src/\*_/_.ts codes. Always expect with Logo.tsx in src/components/Asset/Logo.tsx. I don't want to change the logo.
