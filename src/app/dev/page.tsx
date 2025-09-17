@@ -14,11 +14,38 @@ export default function DevPage() {
   const [txHash, setTxHash] = useState<string>('');
   const [transferRecipient, setTransferRecipient] = useState<string>('');
   const [transferAmount, setTransferAmount] = useState<string>('');
-  const { account } = useWalletAccountStore();
-  const { sendTransaction } = useKaiaWalletSdk();
+  const { account, setAccount } = useWalletAccountStore();
+  const { sendTransaction, requestAccount, disconnectWallet } = useKaiaWalletSdk();
 
   // USDT contract address (Kairos testnet)
   const USDT_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_MOCK_USDT_ADDRESS || "";
+
+  // Wallet connect handler
+  const handleConnect = async () => {
+    try {
+      const newAccount = await requestAccount();
+      if (newAccount) {
+        setAccount(newAccount);
+        window.localStorage.setItem('account', newAccount);
+      }
+    } catch (error) {
+      console.error("Failed to connect wallet:", error);
+      alert("Failed to connect wallet.");
+    }
+  };
+
+  // Wallet disconnect handler
+  const handleDisconnect = async () => {
+    try {
+      // The disconnectWallet function from the SDK handles page reload
+      await disconnectWallet();
+      setAccount(null);
+      window.localStorage.removeItem('account');
+    } catch (error) {
+      console.error("Failed to disconnect wallet:", error);
+      alert("Failed to disconnect wallet.");
+    }
+  };
   
   // Fetch current count from contract
   const fetchCount = useCallback(async () => {
@@ -199,6 +226,17 @@ export default function DevPage() {
           <h3>Contract Info</h3>
           <p><strong>Address:</strong> {COUNTER_CONTRACT_ADDRESS || "Not Set"}</p>
           <p><strong>Account:</strong> {account || "Not Connected"}</p>
+          <div className={styles.buttonGrid}>
+            {account ? (
+              <button onClick={handleDisconnect} className={`${styles.actionButton} ${styles.resetButton}`}>
+                Disconnect Wallet
+              </button>
+            ) : (
+              <button onClick={handleConnect} className={`${styles.actionButton} ${styles.incrementButton}`}>
+                Connect Wallet
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Current Count */}

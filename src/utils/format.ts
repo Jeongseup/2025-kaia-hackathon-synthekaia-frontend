@@ -20,8 +20,10 @@ export const keiHexToKaiaDecimal: (hex:string) => string = (hex:string) => {
     return `${whole.toString()}.${fracTrimmed}`;
 };
 
-export const microUSDTHexToUSDTDecimal = (hex:string) => {
-
+export const microUSDTHexToUSDTDecimal = (hex:string | null | undefined) => {
+    if (!hex) {
+        return "0";
+    }
     const clean = hex.startsWith("0x") || hex.startsWith("0X") ? hex.slice(2) : hex;
     if (clean === "") return "0";
     const microUSDT = BigInt('0x'+clean);

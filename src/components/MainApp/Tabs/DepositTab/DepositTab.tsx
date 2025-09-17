@@ -2,12 +2,13 @@
 
 import { useState, useEffect, useCallback } from "react";
 import styles from "./DepositTab.module.css";
-import { STKAIA_DELTA_NEUTRAL_VAULT_ADDRESS,  STKAIA_DELTA_NEUTRAL_VAULT_ABI} from '@/constants/StkaiaDeltaNeutralVaultAbi'
+import { STKAIA_DELTA_NEUTRAL_VAULT_ADDRESS} from '@/constants/StkaiaDeltaNeutralVaultAbi'
+import VaultABI from '@/constants/abis/StkaiaDeltaNeutralVault.json'
 import { MOCK_USDT_ADDRESS,  MOCK_USDT_ABI} from '@/constants/MockUSDTAbi'
 import { useWalletAccountStore } from "@/components/Wallet/Account/auth.hooks";
 import {useKaiaWalletSdk} from "@/components/Wallet/Sdk/walletSdk.hooks";
 import { ethers } from 'ethers'
-import { microUSDTHexToUSDTDecimal} from "@/utils/format";
+import { microUSDTHexToUSDTDecimal } from "@/utils/format";
 
 type DepositStep = "input" | "review" | "permitting" | "success";
 
@@ -88,22 +89,18 @@ export const DepositTab = () => {
 
     try {
       console.log(`Depositing ${amount} USDT to SyntheKaia vault...`);
+      const provider = new ethers.JsonRpcProvider('https://public-en-kairos.node.kaia.io');
       
       // Convert amount to wei (USDT has 6 decimals)
       const amountInWei = ethers.parseUnits(amount.toString(), 6);
       
-      // Step 1: Approve USDT spending
+      // --- Step 1: Approve USDT spending ---
+      console.log("Step 1: Approving USDT spending...");
       const mUSDTInterface = new ethers.Interface(MOCK_USDT_ABI);
       const approveData = mUSDTInterface.encodeFunctionData('approve', [
         vaultContractAddress, // spender
         amountInWei // amount
       ]);
-      
-      console.log('Approve data:', approveData);
-      console.log('USDT Contract:', usdtContractAddress);
-      console.log('Vault Contract:', vaultContractAddress);
-      console.log('Account:', account);
-      console.log('Amount in wei:', amountInWei.toString());
       
       const approveTx = {
         from: account,
@@ -113,17 +110,28 @@ export const DepositTab = () => {
         gas: "" 
       };
       
-      await sendTransaction([approveTx]);
-      console.log("Approve transaction sent successfully");
+      const approveTxHash = await sendTransaction([approveTx]) as string;
+      if (!approveTxHash) {
+        throw new Error("Failed to send approve transaction. The request may have been rejected or is already processing.");
+      }
+      console.log(`Approve transaction sent. Hash: ${approveTxHash}. Waiting for confirmation...`);
 
-      // Step 2: Deposit to vault
-      const vaultInterface = new ethers.Interface(STKAIA_DELTA_NEUTRAL_VAULT_ABI);
+      const approveReceipt = await provider.waitForTransaction(approveTxHash);
+      if (!approveReceipt) {
+        throw new Error("Failed to get approve transaction receipt. The transaction may not have been mined yet.");
+      }
+      if (approveReceipt.status === 0) {
+        throw new Error("Approve transaction failed. Please check the transaction on the explorer.");
+      }
+      console.log("Approve transaction confirmed.");
+
+      // --- Step 2: Deposit to vault ---
+      console.log("Step 2: Depositing to vault...");
+      const vaultInterface = new ethers.Interface(VaultABI.abi);
       const depositData = vaultInterface.encodeFunctionData('deposit', [
         amountInWei, // assets
         account // receiver
       ]);
-      
-      console.log('Deposit data:', depositData);
       
       const depositTx = {
         from: account,
@@ -133,8 +141,17 @@ export const DepositTab = () => {
         gas: "" // Will be estimated by wallet
       };
       
-      await sendTransaction([depositTx]);
-      console.log("Deposit transaction sent successfully");
+      const depositTxHash = await sendTransaction([depositTx]) as string;
+      if (!depositTxHash) {
+        throw new Error("Failed to send deposit transaction.");
+      }
+      console.log(`Deposit transaction sent. Hash: ${depositTxHash}. Waiting for confirmation...`);
+
+      const depositReceipt = await provider.waitForTransaction(depositTxHash);
+      if (!depositReceipt || depositReceipt.status === 0) {
+        throw new Error("Deposit transaction failed. Please check the transaction on the explorer.");
+      }
+      console.log("Deposit transaction confirmed successfully!");
       
       return { success: true };
       
@@ -172,7 +189,6 @@ export const DepositTab = () => {
         <div className={styles.depositHeader}>
           <h3 className={styles.sectionTitle}>Deposit</h3>
         </div>
-        
         <div className={styles.inputContainer}>
           <input
             type="number"
