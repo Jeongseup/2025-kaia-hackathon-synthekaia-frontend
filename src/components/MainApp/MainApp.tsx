@@ -41,6 +41,9 @@ export const MainApp = ({ setIsLoggedIn }: MainAppProps) => {
         <div className={styles.content}>
           {renderTabContent()}
         </div>
+        <div className={styles.footer}>
+          <span>Powered by SyntheKaia</span>
+        </div>
       </div>
     </div>
   );

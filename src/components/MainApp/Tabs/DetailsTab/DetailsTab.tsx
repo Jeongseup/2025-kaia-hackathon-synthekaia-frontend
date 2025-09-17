@@ -21,11 +21,6 @@ export const DetailsTab = () => {
           <h3 className={styles.comingSoonTitle}>Details</h3>
           <p className={styles.comingSoonText}>Coming soon</p>
         </div>
-
-        {/* Footer */}
-        <div className={styles.footer}>
-          <span>Powered by stKAIA x k-bit PerpDEX</span>
-        </div>
       </div>
     </div>
   );

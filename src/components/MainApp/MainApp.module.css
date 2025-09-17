@@ -61,6 +61,16 @@
   flex-direction: column;
 }
 
+.footer {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-light);
+  background: rgba(255, 255, 255, 0.95);
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 8px 20px;
+  flex-shrink: 0;
+}
+
 /* Mobile responsiveness */
 @media (max-width: 480px) {
   .container {

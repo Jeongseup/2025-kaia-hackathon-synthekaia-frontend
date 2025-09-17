@@ -382,12 +382,6 @@ export const DepositTab = () => {
       )}
 
       {renderStepContent()}
-
-      {currentStep === "input" && (
-        <div className={styles.footer}>
-          <span>Powered by SyntheKaia</span>
-        </div>
-      )}
     </div>
   );
 };

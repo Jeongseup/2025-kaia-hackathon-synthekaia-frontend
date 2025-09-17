@@ -57,11 +57,6 @@ export const PortfolioTab = () => {
         <button className={styles.withdrawButton}>
           Withdraw
         </button>
-
-        {/* Footer */}
-        <div className={styles.footer}>
-          <span>Powered by stKAIA x k-bit PerpDEX</span>
-        </div>
       </div>
     </div>
   );
