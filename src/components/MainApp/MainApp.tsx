@@ -6,10 +6,10 @@ import { Header } from "./Header/Header";
 import { TabNavigation } from "./TabNavigation/TabNavigation";
 import { DepositTab } from "./Tabs/DepositTab/DepositTab";
 import { PortfolioTab } from "./Tabs/PortfolioTab/PortfolioTab";
-import { PointsTab } from "./Tabs/PointsTab/PointsTab";
+import { VaultTab } from "./Tabs/VaultTab/VaultTab";
 import { DetailsTab } from "./Tabs/DetailsTab/DetailsTab";
 
-export type TabType = "deposit" | "portfolio" | "points" | "details";
+export type TabType = "deposit" | "portfolio" | "vault" | "details";
 
 export type MainAppProps = {
   setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
@@ -24,8 +24,8 @@ export const MainApp = ({ setIsLoggedIn }: MainAppProps) => {
         return <DepositTab />;
       case "portfolio":
         return <PortfolioTab />;
-      case "points":
-        return <PointsTab />;
+      case "vault":
+        return <VaultTab />;
       case "details":
         return <DetailsTab />;
       default:

@@ -209,6 +209,70 @@
   color: var(--accent-color);
 }
 
+.yieldLabelWithTooltip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tooltipContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.helpIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  background: #E5E7EB;
+  color: #6B7280;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: help;
+  transition: all 0.2s ease;
+}
+
+.helpIcon:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 130%;
+  right: -100px;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  width: 220px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  right: 110px;
+  border: 6px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.9);
+}
+
+.tooltipContainer:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
 .connectButton {
   width: 100%;
   padding: 16px;
@@ -903,5 +967,16 @@
 
   .legendItem {
     font-size: 11px;
+  }
+
+  .tooltip {
+    width: 180px;
+    right: -80px;
+    font-size: 11px;
+    padding: 10px 12px;
+  }
+
+  .tooltip::after {
+    right: 90px;
   }
 }

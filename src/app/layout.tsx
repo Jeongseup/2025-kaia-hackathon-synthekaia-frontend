@@ -19,6 +19,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "SyntheKaia",
   description: "Hybrid DeFi Strategy Vault (stKAIA x Perp Short) For Kaia DeFi Users",
+  icons: {
+    icon: '/assets/synthekaia-logo.svg',
+    shortcut: '/assets/synthekaia-logo.svg',
+    apple: '/assets/synthekaia-logo.svg',
+  },
 };
 
 export default function RootLayout({

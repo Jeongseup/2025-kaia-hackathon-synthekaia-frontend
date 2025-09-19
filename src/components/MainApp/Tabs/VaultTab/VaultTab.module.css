@@ -1,0 +1,272 @@
+.container {
+  padding: 0;
+  background: white;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.vaultContent {
+  padding: 24px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 1. TVL Section */
+.tvlSection {
+  margin-bottom: 24px;
+}
+
+.tvlCard {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  border-radius: 16px;
+  padding: 24px;
+  color: white;
+  text-align: center;
+}
+
+.tvlTitle {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 12px 0;
+  opacity: 0.9;
+}
+
+.tvlAmount {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.tvlSubtitle {
+  font-size: 12px;
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Vault Statistics Section */
+.statisticsSection {
+  margin-bottom: 24px;
+}
+
+.statisticsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.statCard {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.statIcon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.statContent {
+  flex: 1;
+}
+
+.statLabel {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-bottom: 4px;
+}
+
+.statValue {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* 2. Asset Composition Section */
+.compositionSection {
+  margin-bottom: 24px;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0 0 16px 0;
+}
+
+.assetCard {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.assetCard:last-child {
+  margin-bottom: 0;
+}
+
+.assetHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.assetTitleWithIcon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.assetName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.assetValue {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.assetDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.assetAmount {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.assetPrice {
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+.strategyIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.usdtIcon {
+  font-size: 16px;
+}
+
+/* Strategy Section */
+.strategySection {
+  margin-bottom: 24px;
+}
+
+.strategyCard {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.strategyHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.strategyTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.statusBadge {
+  background: #E8F5E8;
+  color: #2E7D32;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.strategyDescription {
+  margin-bottom: 16px;
+}
+
+.strategyDescription p {
+  font-size: 14px;
+  color: var(--text-light);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.strategyMetrics {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.metricRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.metricLabel {
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.metricValue {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .vaultContent {
+    padding: 20px 16px;
+  }
+  
+  .tvlCard {
+    padding: 20px;
+  }
+  
+  .tvlAmount {
+    font-size: 28px;
+  }
+
+  .statisticsGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .assetHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .assetValue {
+    font-size: 18px;
+  }
+
+  .strategyCard {
+    padding: 16px;
+  }
+
+  .strategyHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}

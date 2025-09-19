@@ -279,12 +279,16 @@ export const DepositTab = () => {
 {/* Yield Information */}
         <div className={styles.yieldInfo}>
           <div className={styles.yieldItem}>
-            <span className={styles.yieldLabel}>Expected Monthly Yield</span>
-            <span className={styles.yieldValue}>~1.04%</span>
-          </div>
-          <div className={styles.yieldItem}>
-            <span className={styles.yieldLabel}>Estimated Annual Return</span>
-            <span className={styles.yieldValue}>~12.5%</span>
+            <div className={styles.yieldLabelWithTooltip}>
+              <div className={styles.tooltipContainer}>
+              <span className={styles.yieldLabel}>Estimated Annual Return   </span>
+              <span className={styles.helpIcon}>?</span>
+              <div className={styles.tooltip}>
+                This yield is coming from Kaia Staking Rewards(15%). So the APY would be changed by kaia staking rewards
+              </div>
+              </div>
+            </div>
+            <span className={styles.yieldValue}>~7.5%</span>
           </div>
         </div>
 
