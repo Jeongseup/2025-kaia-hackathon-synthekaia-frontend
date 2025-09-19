@@ -12,8 +12,8 @@ export type TabNavigationProps = {
 const tabs = [
   { id: "deposit" as TabType, label: "Deposit", icon: "🏦" },
   { id: "portfolio" as TabType, label: "Portfolio", icon: "📊" },
-  { id: "points" as TabType, label: "Points", icon: "💎" },
-  { id: "details" as TabType, label: "Details", icon: "📋" },
+  { id: "vault" as TabType, label: "Vault", icon: "🏛️" },
+  { id: "account" as TabType, label: "Account", icon: "👤" },
 ];
 
 export const TabNavigation = ({ activeTab, setActiveTab }: TabNavigationProps) => {

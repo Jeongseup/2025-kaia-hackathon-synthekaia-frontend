@@ -1,0 +1,366 @@
+.container {
+  padding: 0;
+  background: white;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.accountContent {
+  padding: 24px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Wallet Section */
+.walletSection {
+  margin-bottom: 20px;
+}
+
+.walletCard {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  border-radius: 16px;
+  padding: 24px;
+  color: white;
+  text-align: center;
+}
+
+.walletTitle {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 12px 0;
+  opacity: 0.9;
+}
+
+.walletAmount {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.walletSubtitle {
+  font-size: 12px;
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Assets Section */
+.assetsSection {
+  margin-bottom: 24px;
+}
+
+.assetsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.assetsTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.viewAllButton {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+.viewAllButton:hover {
+  background: rgba(67, 182, 249, 0.1);
+}
+
+.assetsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.assetItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.assetItem:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 2px 8px rgba(67, 182, 249, 0.1);
+}
+
+.assetInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.assetIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  flex-shrink: 0;
+}
+
+.assetDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.assetName {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 2px;
+}
+
+.assetPrice {
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+.assetBalance {
+  text-align: right;
+}
+
+.assetValue {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 2px;
+}
+
+.assetAmount {
+  font-size: 12px;
+  color: var(--text-light);
+}
+
+/* Faucet Section */
+.faucetSection {
+  margin-bottom: 24px;
+}
+
+.faucetTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0 0 8px 0;
+}
+
+.faucetDescription {
+  font-size: 14px;
+  color: var(--text-light);
+  margin: 0 0 20px 0;
+}
+
+.faucetButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faucetButton {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.faucetButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(67, 182, 249, 0.3);
+}
+
+.faucetButton:disabled {
+  background: #CBD5E0;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.faucetButtonIcon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.faucetButtonText {
+  flex: 1;
+}
+
+.faucetButtonLabel {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.faucetButtonDesc {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+/* Loading states */
+.loading {
+  color: var(--primary-color);
+  font-style: italic;
+  animation: pulse 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .accountContent {
+    padding: 20px 16px;
+  }
+  
+  .walletSection {
+    padding: 10px;
+  }
+  
+  .balanceAmount {
+    font-size: 28px;
+  }
+  
+  .walletHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .walletAddress {
+    font-size: 11px;
+  }
+  
+  .assetItem {
+    padding: 12px;
+  }
+  
+  .assetIcon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .faucetButtons {
+    gap: 10px;
+  }
+  
+  .faucetButton {
+    padding: 14px;
+  }
+  
+  .faucetButtonIcon {
+    font-size: 20px;
+  }
+  
+  .faucetButtonLabel {
+    font-size: 14px;
+  }
+  
+  .faucetButtonDesc {
+    font-size: 11px;
+  }
+
+  .toast {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    font-size: 13px;
+  }
+}
+
+/* Toast Styles */
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--text-dark);
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 4px 20px rgba(67, 182, 249, 0.15);
+  backdrop-filter: blur(12px);
+  animation: slideInFromLeft 0.4s ease-out;
+  z-index: 1000;
+}
+
+.toast.success {
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  box-shadow: 0 4px 20px rgba(34, 197, 94, 0.15);
+}
+
+.toast.error {
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  box-shadow: 0 4px 20px rgba(239, 68, 68, 0.15);
+}
+
+.toastIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: white;
+  flex-shrink: 0;
+}
+
+.toast.success .toastIcon {
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+}
+
+.toast.error .toastIcon {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.toastText {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

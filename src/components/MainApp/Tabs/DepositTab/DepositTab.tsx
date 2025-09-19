@@ -10,14 +10,19 @@ import {useKaiaWalletSdk} from "@/components/Wallet/Sdk/walletSdk.hooks";
 import { ethers } from 'ethers'
 import { microUSDTHexToUSDTDecimal } from "@/utils/format";
 
-type DepositStep = "input" | "review" | "permitting" | "success";
+type DepositStep = "input" | "review" | "approving" | "depositing" | "success";
 
-export const DepositTab = () => {
+export type DepositTabProps = {
+  setActiveTab: (tab: "deposit" | "portfolio" | "vault" | "account") => void;
+};
+
+export const DepositTab = ({ setActiveTab }: DepositTabProps) => {
   const vaultContractAddress = STKAIA_DELTA_NEUTRAL_VAULT_ADDRESS;    
   const usdtContractAddress = MOCK_USDT_ADDRESS;
   const [amount, setAmount] = useState("");
   const [selectedCurrency] = useState("USDT");
-  const [currentStep, setCurrentStep] = useState<DepositStep>("input");  
+  const [currentStep, setCurrentStep] = useState<DepositStep>("input");
+  const [showUpvoteToast, setShowUpvoteToast] = useState(false);  
   const [usdtBalance, setUsdtBalance] = useState<string>('0.00');
   const [isLoadingBalance, setIsLoadingBalance] = useState(false);
   const { account } = useWalletAccountStore();
@@ -57,8 +62,8 @@ export const DepositTab = () => {
   };
 
   const handleReview = async () => {
-    setCurrentStep("permitting");
-    
+    setCurrentStep("approving");
+      
     try {
       // Contract call for USDT deposit
       const result = await depositUSDT(parseFloat(amount));
@@ -80,7 +85,7 @@ export const DepositTab = () => {
       alert(`Deposit failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
       setCurrentStep("review");
     }
-  };
+    };
 
   const depositUSDT = async (amount: number) => {
     if (!account) {
@@ -115,6 +120,8 @@ export const DepositTab = () => {
         throw new Error("Failed to send approve transaction. The request may have been rejected or is already processing.");
       }
       console.log(`Approve transaction sent. Hash: ${approveTxHash}. Waiting for confirmation...`);
+
+      setCurrentStep("depositing");
 
       const approveReceipt = await provider.waitForTransaction(approveTxHash);
       if (!approveReceipt) {
@@ -152,7 +159,12 @@ export const DepositTab = () => {
         throw new Error("Deposit transaction failed. Please check the transaction on the explorer.");
       }
       console.log("Deposit transaction confirmed successfully!");
-      
+
+      // Show upvote toast
+      setShowUpvoteToast(true);
+      setTimeout(() => {
+        setShowUpvoteToast(false);
+      }, 2000);
       return { success: true };
       
     } catch (error) {
@@ -173,8 +185,10 @@ export const DepositTab = () => {
         return renderInputStep();
       case "review":
         return renderReviewStep();
-      case "permitting":
-        return renderPermittingStep();
+      case "approving":
+        return renderApprovingStep();
+      case "depositing":
+        return renderDepositingStep();
       case "success":
         return renderSuccessStep();
       default:
@@ -275,12 +289,16 @@ export const DepositTab = () => {
 {/* Yield Information */}
         <div className={styles.yieldInfo}>
           <div className={styles.yieldItem}>
-            <span className={styles.yieldLabel}>Expected Monthly Yield</span>
-            <span className={styles.yieldValue}>~1.04%</span>
-          </div>
-          <div className={styles.yieldItem}>
-            <span className={styles.yieldLabel}>Estimated Annual Return</span>
-            <span className={styles.yieldValue}>~12.5%</span>
+            <div className={styles.yieldLabelWithTooltip}>
+              <div className={styles.tooltipContainer}>
+              <span className={styles.yieldLabel}>Estimated Annual Return   </span>
+              <span className={styles.helpIcon}>?</span>
+              <div className={styles.tooltip}>
+                This yield is coming from Kaia Staking Rewards(15%). So the APY would be changed by kaia staking rewards
+              </div>
+              </div>
+            </div>
+            <span className={styles.yieldValue}>~7.5%</span>
           </div>
         </div>
 
@@ -318,7 +336,7 @@ export const DepositTab = () => {
 
         <div className={styles.commitmentInfo}>
           <div className={styles.commitmentRow}>
-            <span className={styles.commitmentKey}>Commitment period ends</span>
+            <span className={styles.commitmentKey}>Deposit is processed as USDT approve & deposit sequentially</span>
           </div>
         </div>
 
@@ -329,11 +347,21 @@ export const DepositTab = () => {
     </div>
   );
 
-  const renderPermittingStep = () => (
+  const renderApprovingStep = () => (
     <div className={styles.permittingSection}>
       <div className={styles.permittingContent}>
-        <h3 className={styles.permittingTitle}>Permitting {selectedCurrency}</h3>
-        <p className={styles.permittingText}>Please sign the permit transaction in your wallet</p>
+        <h3 className={styles.permittingTitle}>Approving {selectedCurrency}</h3>
+        <p className={styles.permittingText}>Please sign the approve transaction in your wallet</p>
+        <div className={styles.loadingSpinner}></div>
+      </div>
+    </div>
+  );
+
+  const renderDepositingStep = () => (
+    <div className={styles.permittingSection}>
+      <div className={styles.permittingContent}>
+        <h3 className={styles.permittingTitle}>Depositing {selectedCurrency}...</h3>
+        <p className={styles.permittingText}>Please wait while your deposit is being processed</p>
         <div className={styles.loadingSpinner}></div>
       </div>
     </div>
@@ -348,11 +376,13 @@ export const DepositTab = () => {
         <button 
           className={styles.doneButton}
           onClick={() => {
+            // Reset form and go to portfolio
             setCurrentStep("input");
             setAmount("");
+            setActiveTab("portfolio");
           }}
         >
-          Done
+          Go to Portfolio
         </button>
       </div>
     </div>
@@ -398,6 +428,18 @@ export const DepositTab = () => {
       )}
 
       {renderStepContent()}
+
+      {/* Upvote Toast */}
+      {showUpvoteToast && (
+        <div className={styles.upvoteToast}>
+          <div className={styles.toastIcon}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <polyline points="20,6 9,17 4,12"/>
+            </svg>
+          </div>
+          <span className={styles.toastText}>Upvote for SyntheKaia Project!</span>
+        </div>
+      )}
     </div>
   );
 };
