@@ -21,7 +21,7 @@ export const MainApp = ({ setIsLoggedIn }: MainAppProps) => {
   const renderTabContent = () => {
     switch (activeTab) {
       case "deposit":
-        return <DepositTab />;
+        return <DepositTab setActiveTab={setActiveTab} />;
       case "portfolio":
         return <PortfolioTab />;
       case "vault":
@@ -29,7 +29,7 @@ export const MainApp = ({ setIsLoggedIn }: MainAppProps) => {
       case "account":
         return <AccountTab />;
       default:
-        return <DepositTab />;
+        return <DepositTab setActiveTab={setActiveTab} />;
     }
   };
 

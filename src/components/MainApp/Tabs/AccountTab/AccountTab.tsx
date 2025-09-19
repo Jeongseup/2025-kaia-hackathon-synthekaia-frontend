@@ -256,16 +256,6 @@ export const AccountTab = () => {
           <span className={styles.toastText}>{toastMessage}</span>
         </div>
       )}
-
-      {/* Copy Toast */}
-      {/* {showCopyToast && (
-        <div className={styles.copyToast}>
-          <div className={styles.toastIcon}>
-           
-          </div>
-          <span className={styles.toastText}>{toastMessage}</span>
-        </div>
-      )}  */}
     </div>
   );
 };

@@ -12,12 +12,17 @@ import { microUSDTHexToUSDTDecimal } from "@/utils/format";
 
 type DepositStep = "input" | "review" | "approving" | "depositing" | "success";
 
-export const DepositTab = () => {
+export type DepositTabProps = {
+  setActiveTab: (tab: "deposit" | "portfolio" | "vault" | "account") => void;
+};
+
+export const DepositTab = ({ setActiveTab }: DepositTabProps) => {
   const vaultContractAddress = STKAIA_DELTA_NEUTRAL_VAULT_ADDRESS;    
   const usdtContractAddress = MOCK_USDT_ADDRESS;
   const [amount, setAmount] = useState("");
   const [selectedCurrency] = useState("USDT");
-  const [currentStep, setCurrentStep] = useState<DepositStep>("input");  
+  const [currentStep, setCurrentStep] = useState<DepositStep>("input");
+  const [showUpvoteToast, setShowUpvoteToast] = useState(false);  
   const [usdtBalance, setUsdtBalance] = useState<string>('0.00');
   const [isLoadingBalance, setIsLoadingBalance] = useState(false);
   const { account } = useWalletAccountStore();
@@ -154,7 +159,12 @@ export const DepositTab = () => {
         throw new Error("Deposit transaction failed. Please check the transaction on the explorer.");
       }
       console.log("Deposit transaction confirmed successfully!");
-      
+
+      // Show upvote toast
+      setShowUpvoteToast(true);
+      setTimeout(() => {
+        setShowUpvoteToast(false);
+      }, 2000);
       return { success: true };
       
     } catch (error) {
@@ -366,11 +376,13 @@ export const DepositTab = () => {
         <button 
           className={styles.doneButton}
           onClick={() => {
+            // Reset form and go to portfolio
             setCurrentStep("input");
             setAmount("");
+            setActiveTab("portfolio");
           }}
         >
-          Done
+          Go to Portfolio
         </button>
       </div>
     </div>
@@ -416,6 +428,18 @@ export const DepositTab = () => {
       )}
 
       {renderStepContent()}
+
+      {/* Upvote Toast */}
+      {showUpvoteToast && (
+        <div className={styles.upvoteToast}>
+          <div className={styles.toastIcon}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <polyline points="20,6 9,17 4,12"/>
+            </svg>
+          </div>
+          <span className={styles.toastText}>Upvote for SyntheKaia Project!</span>
+        </div>
+      )}
     </div>
   );
 };

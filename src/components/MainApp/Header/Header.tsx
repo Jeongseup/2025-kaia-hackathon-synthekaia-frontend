@@ -13,6 +13,7 @@ export const Header = ({ setIsLoggedIn }: HeaderProps) => {
   const { account, setAccount } = useWalletAccountStore();
   const { disconnectWallet } = useKaiaWalletSdk();
   const [showCopyToast, setShowCopyToast] = useState(false);
+  const [showUpvoteToast, setShowUpvoteToast] = useState(false);
 
   const handleDisconnect = async () => {
     try {
@@ -22,6 +23,16 @@ export const Header = ({ setIsLoggedIn }: HeaderProps) => {
     } catch (error) {
       console.error("Disconnect error:", error);
     }
+  };
+
+  const handleGoToWebsite = async () => {
+    setShowUpvoteToast(true);
+    setTimeout(() => setShowUpvoteToast(false), 2000);
+    
+    // Wait for 1 second to display the message
+    setTimeout(() => {
+      window.open("https://dorahacks.io/buidl/33057", "_blank");
+    }, 1000);
   };
 
   const handleCopyAddress = async (e: React.MouseEvent) => {
@@ -47,7 +58,14 @@ export const Header = ({ setIsLoggedIn }: HeaderProps) => {
       <div className={styles.logoContainer}>
         <div className={styles.logoIcon}>
         </div>
-        <span className={styles.logoText}>SyntheKaia</span>
+        <button 
+          className={styles.websiteButton}
+          onClick={handleGoToWebsite}
+          title="Go to SyntheKaia Website"
+        >
+          <span className={styles.logoText}>SyntheKaia</span>
+        </button>
+
         {/* 현재 주소 버튼 위치 */}
         <button 
           className={styles.addressButton}
@@ -78,6 +96,18 @@ export const Header = ({ setIsLoggedIn }: HeaderProps) => {
             </svg>
           </div>
           <span className={styles.toastText}>Copied</span>
+        </div>
+      )}
+
+      {/* Upvote Toast */}
+      {showUpvoteToast && (
+        <div className={styles.copyToast}>
+          <div className={styles.toastIcon}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <polyline points="20,6 9,17 4,12"/>
+            </svg>
+          </div>
+          <span className={styles.toastText}>Upvote for SyntheKaia Project!</span>
         </div>
       )} 
     </div>
