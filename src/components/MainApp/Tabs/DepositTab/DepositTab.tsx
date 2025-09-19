@@ -10,7 +10,7 @@ import {useKaiaWalletSdk} from "@/components/Wallet/Sdk/walletSdk.hooks";
 import { ethers } from 'ethers'
 import { microUSDTHexToUSDTDecimal } from "@/utils/format";
 
-type DepositStep = "input" | "review" | "permitting" | "success";
+type DepositStep = "input" | "review" | "approving" | "depositing" | "success";
 
 export const DepositTab = () => {
   const vaultContractAddress = STKAIA_DELTA_NEUTRAL_VAULT_ADDRESS;    
@@ -57,8 +57,8 @@ export const DepositTab = () => {
   };
 
   const handleReview = async () => {
-    setCurrentStep("permitting");
-    
+    setCurrentStep("approving");
+      
     try {
       // Contract call for USDT deposit
       const result = await depositUSDT(parseFloat(amount));
@@ -80,7 +80,7 @@ export const DepositTab = () => {
       alert(`Deposit failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
       setCurrentStep("review");
     }
-  };
+    };
 
   const depositUSDT = async (amount: number) => {
     if (!account) {
@@ -115,6 +115,8 @@ export const DepositTab = () => {
         throw new Error("Failed to send approve transaction. The request may have been rejected or is already processing.");
       }
       console.log(`Approve transaction sent. Hash: ${approveTxHash}. Waiting for confirmation...`);
+
+      setCurrentStep("depositing");
 
       const approveReceipt = await provider.waitForTransaction(approveTxHash);
       if (!approveReceipt) {
@@ -173,8 +175,10 @@ export const DepositTab = () => {
         return renderInputStep();
       case "review":
         return renderReviewStep();
-      case "permitting":
-        return renderPermittingStep();
+      case "approving":
+        return renderApprovingStep();
+      case "depositing":
+        return renderDepositingStep();
       case "success":
         return renderSuccessStep();
       default:
@@ -318,7 +322,7 @@ export const DepositTab = () => {
 
         <div className={styles.commitmentInfo}>
           <div className={styles.commitmentRow}>
-            <span className={styles.commitmentKey}>Commitment period ends</span>
+            <span className={styles.commitmentKey}>Deposit is processed as USDT approve & deposit sequentially</span>
           </div>
         </div>
 
@@ -329,11 +333,21 @@ export const DepositTab = () => {
     </div>
   );
 
-  const renderPermittingStep = () => (
+  const renderApprovingStep = () => (
     <div className={styles.permittingSection}>
       <div className={styles.permittingContent}>
-        <h3 className={styles.permittingTitle}>Permitting {selectedCurrency}</h3>
-        <p className={styles.permittingText}>Please sign the permit transaction in your wallet</p>
+        <h3 className={styles.permittingTitle}>Approving {selectedCurrency}</h3>
+        <p className={styles.permittingText}>Please sign the approve transaction in your wallet</p>
+        <div className={styles.loadingSpinner}></div>
+      </div>
+    </div>
+  );
+
+  const renderDepositingStep = () => (
+    <div className={styles.permittingSection}>
+      <div className={styles.permittingContent}>
+        <h3 className={styles.permittingTitle}>Depositing {selectedCurrency}...</h3>
+        <p className={styles.permittingText}>Please wait while your deposit is being processed</p>
         <div className={styles.loadingSpinner}></div>
       </div>
     </div>
