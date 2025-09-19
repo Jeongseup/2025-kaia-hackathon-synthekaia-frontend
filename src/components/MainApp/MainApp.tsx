@@ -7,9 +7,9 @@ import { TabNavigation } from "./TabNavigation/TabNavigation";
 import { DepositTab } from "./Tabs/DepositTab/DepositTab";
 import { PortfolioTab } from "./Tabs/PortfolioTab/PortfolioTab";
 import { VaultTab } from "./Tabs/VaultTab/VaultTab";
-import { DetailsTab } from "./Tabs/DetailsTab/DetailsTab";
+import { AccountTab } from "./Tabs/AccountTab/AccountTab";
 
-export type TabType = "deposit" | "portfolio" | "vault" | "details";
+export type TabType = "deposit" | "portfolio" | "vault" | "account";
 
 export type MainAppProps = {
   setIsLoggedIn: Dispatch<SetStateAction<boolean>>;
@@ -26,8 +26,8 @@ export const MainApp = ({ setIsLoggedIn }: MainAppProps) => {
         return <PortfolioTab />;
       case "vault":
         return <VaultTab />;
-      case "details":
-        return <DetailsTab />;
+      case "account":
+        return <AccountTab />;
       default:
         return <DepositTab />;
     }
