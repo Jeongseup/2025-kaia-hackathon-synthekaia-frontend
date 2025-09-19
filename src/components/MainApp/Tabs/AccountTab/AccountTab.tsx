@@ -4,18 +4,26 @@ import { useState, useEffect, useCallback } from "react";
 import styles from "./AccountTab.module.css";
 import { useWalletAccountStore } from "@/components/Wallet/Account/auth.hooks";
 import { useKaiaWalletSdk } from "@/components/Wallet/Sdk/walletSdk.hooks";
-import { MOCK_USDT_ABI, MOCK_USDT_ADDRESS } from '@/constants/MockUSDTAbi';
+import { MOCK_USDT_ADDRESS } from '@/constants/MockUSDTAbi';
 import { microUSDTHexToUSDTDecimal } from "@/utils/format";
-import { ethers } from "ethers";
 
 export const AccountTab = () => {
-  const usdtContractAddress = MOCK_USDT_ADDRESS;
   const { account } = useWalletAccountStore();
-  const { sendTransaction, getErc20TokenBalance } = useKaiaWalletSdk();
+  const { getErc20TokenBalance } = useKaiaWalletSdk();
   const [kaiaBalance, setKaiaBalance] = useState<string>('0.00');
   const [usdtBalance, setUsdtBalance] = useState<string>('0.00');
   const [isLoading, setIsLoading] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastType, setToastType] = useState<'success' | 'error'>('success');
 
+  // Show toast function
+  const showToastMessage = (message: string, type: 'success' | 'error' = 'success') => {
+    setToastMessage(message);
+    setToastType(type);
+    setShowToast(true);
+    setTimeout(() => setShowToast(false), 3000);
+  };
 
   // Faucet USDT
   const faucetUSDT = async () => {
@@ -25,40 +33,29 @@ export const AccountTab = () => {
 
     try {
       console.log(`Faucet 100 USDT to your wallet...`);
-      const provider = new ethers.JsonRpcProvider('https://public-en-kairos.node.kaia.io');
-      const amountInWei = ethers.parseUnits("100", 6);
-      const mUSDTInterface = new ethers.Interface(MOCK_USDT_ABI);
-      const mintData = mUSDTInterface.encodeFunctionData('mint', [
-        account, // user address
-        amountInWei // amount
-      ]);
       
-      const mintTx = {
-        from: account,
-        to: usdtContractAddress,
-        data: mintData,
-        value: "",
-        gas: "" 
-      };
+      // Call API route instead of direct contract interaction
+      const response = await fetch('/api/faucet/usdt', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ account }),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Faucet request failed');
+      }
+
+      console.log("Faucet transaction confirmed successfully!", result);
       
-      const mintTxHash = await sendTransaction([mintTx]) as string;
-      if (!mintTxHash) {
-        throw new Error("Failed to send approve transaction. The request may have been rejected or is already processing.");
-      }
-      console.log(`Mint transaction sent. Hash: ${mintTxHash}. Waiting for confirmation...`);
-
-      const mintReceipt = await provider.waitForTransaction(mintTxHash);
-      if (!mintReceipt) {
-        throw new Error("Failed to get approve transaction receipt. The transaction may not have been mined yet.");
-      }
-
-      if (mintReceipt.status === 0) {
-        throw new Error("Approve transaction failed. Please check the transaction on the explorer.");
-      }
-
-      console.log("Faucet transaction confirmed successfully!");
+      // Refresh USDT balance after successful mint
+      await fetchUSDTBalance();
+      
     } catch (error) {
-      console.error("Contract call failed:", error);
+      console.error("Faucet failed:", error);
       throw error;
     }
   };
@@ -218,11 +215,19 @@ export const AccountTab = () => {
               </div>
             </button>
             
-            <button 
-              className={styles.faucetButton}
-              onClick={faucetUSDT}
-              disabled={!account}
-            >
+                <button 
+                  className={styles.faucetButton}
+                  onClick={async () => {
+                    try {
+                      await faucetUSDT();
+                      showToastMessage("Successfully received 100 USDT!", "success");
+                    } catch (error) {
+                      console.error("USDT Faucet failed:", error);
+                      showToastMessage(error instanceof Error ? error.message : 'Unknown error', "error");
+                    }
+                  }}
+                  disabled={!account}
+                >
               <div className={styles.faucetButtonIcon}>💧</div>
               <div className={styles.faucetButtonText}>
                 <div className={styles.faucetButtonLabel}>Faucet USDT</div>
@@ -232,6 +237,35 @@ export const AccountTab = () => {
           </div>
         </div>
       </div>
+
+      {/* Toast */}
+      {showToast && (
+        <div className={`${styles.toast} ${styles[toastType]}`}>
+          <div className={styles.toastIcon}>
+            {toastType === 'success' ? (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="20,6 9,17 4,12"/>
+              </svg>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            )}
+          </div>
+          <span className={styles.toastText}>{toastMessage}</span>
+        </div>
+      )}
+
+      {/* Copy Toast */}
+      {/* {showCopyToast && (
+        <div className={styles.copyToast}>
+          <div className={styles.toastIcon}>
+           
+          </div>
+          <span className={styles.toastText}>{toastMessage}</span>
+        </div>
+      )}  */}
     </div>
   );
 };
