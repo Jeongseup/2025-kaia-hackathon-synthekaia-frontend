@@ -29,6 +29,16 @@ This allows users, especially mainstream users via the LINE app, to access stabl
 - **Portfolio Management**: View your vault balance, share tokens, and performance metrics.
 - **Faucet**: A developer-focused faucet to get testnet USDT for trial purposes.
 
+## Demo Contract Addresses
+
+For quick testing, you can use the following contract addresses deployed on the Baobab testnet.
+
+| Name                                              | Address                                    |
+| ------------------------------------------------- | ------------------------------------------ |
+| `NEXT_PUBLIC_MOCK_USDT_ADDRESS`                   | `0xeEB3432dc5bB3b6a774b97a125A498Cb528A640b` |
+| `NEXT_PUBLIC_MOCK_STAKED_KAIA_ADDRESS`            | `0xcEB9f9Be9ceE2704b4999fA512031125bC15F7ff` |
+| `NEXT_PUBLIC_STKAIA_DELTA_NEUTRAL_VAULT_ADDRESS`  | `0x1A2e956C4E342708688b878f07b469680487a3Ba` |
+
 ## Getting Started
 
 Follow these instructions to set up and run the project locally.
@@ -88,16 +98,6 @@ For local development and testing, you need to deploy the SyntheKaia smart contr
     After deployment, copy the resulting contract addresses (`USDT_ADDRESS`, `ST_KAIA_ADDRESS`, `STKAIA_DELTA_NEUTRAL_VAULT_ADDRESS`) from the contract project's terminal output into the corresponding variables in this frontend project's `.env.local` file.
 
 For detailed instructions, please refer to the [contract repository](https://github.com/Jeongseup/2025-kaia-hackathon-synthekaia-contract).
-
-### Demo Contract Addresses
-
-For quick testing, you can use the following contract addresses deployed on the Baobab testnet.
-
-| Name                                              | Address                                    |
-| ------------------------------------------------- | ------------------------------------------ |
-| `NEXT_PUBLIC_MOCK_USDT_ADDRESS`                   | `0xeEB3432dc5bB3b6a774b97a125A498Cb528A640b` |
-| `NEXT_PUBLIC_MOCK_STAKED_KAIA_ADDRESS`            | `0xcEB9f9Be9ceE2704b4999fA512031125bC15F7ff` |
-| `NEXT_PUBLIC_STKAIA_DELTA_NEUTRAL_VAULT_ADDRESS`  | `0x1A2e956C4E342708688b878f07b469680487a3Ba` |
 
 ### Running the Development Server
 
