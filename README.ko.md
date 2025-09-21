@@ -53,20 +53,41 @@ SyntheKaia는 Kaia 네트워크의 탈중앙화 금융(DeFi) 볼트로, 델타-�
 
 ### 설정
 
-프로젝트 루트에 `.env.local` 파일을 생성하고 필요한 환경 변수를 추가합니다. 아래 예제를 복사할 수 있습니다.
+`.env.sample` 파일을 복사하여 `.env.local` 파일을 생성합니다. 이 파일은 애플리케이션 실행에 필요한 환경 변수를 포함합니다.
 
-```dotenv
-# .env.local
-
-# LINE 미니 앱의 LIFF ID
-NEXT_PUBLIC_LIFF_ID="YOUR_LIFF_ID"
-
-# Kaia 네트워크 설정
-NEXT_PUBLIC_KAIYA_RPC_URL="https://your-kaia-rpc-provider.com"
-NEXT_PUBLIC_MOCK_USDT_CONTRACT_ADDRESS="0x..."
-NEXT_PUBLIC_VAULT_CONTRACT_ADDRESS="0x..."
-
+```bash
+cp .env.sample .env.local
 ```
+
+각 변수에 대한 설명은 다음과 같습니다:
+
+- `NODE_ENV`: 애플리케이션 환경 (예: `local`, `development`, `production`).
+- `BASE_API_URL`: 백엔드 API의 기본 URL. 로컬 개발의 경우 `https://localhost:3000`입니다.
+- `FAUCETER_PRIVATE_KEY`: 파우셋에서 테스트넷 USDT를 배포하는 데 사용되는 계정의 비공개 키입니다. **이 변수는 로컬 또는 테스트 환경에서만 사용해야 합니다.**
+- `NEXT_PUBLIC_CLIENT_ID`: Kaia DApp Portal SDK의 클라이언트 ID입니다.
+- `NEXT_PUBLIC_CHAIN_ID`: Kaia 네트워크의 체인 ID (예: Baobab 테스트넷의 경우 `1001`).
+- `NEXT_PUBLIC_LIFF_ID`: LINE 미니 앱의 LIFF ID입니다.
+- `NEXT_PUBLIC_MOCK_USDT_ADDRESS`: 모의 USDT 토큰의 컨트랙트 주소입니다.
+- `NEXT_PUBLIC_MOCK_STAKED_KAIA_ADDRESS`: 모의 stKAIA 토큰의 컨트랙트 주소입니다.
+- `NEXT_PUBLIC_STKAIA_DELTA_NEUTRAL_VAULT_ADDRESS`: 메인 볼트 컨트랙트의 주소입니다.
+
+#### 테스트 컨트랙트 배포
+
+로컬 개발 및 테스트를 위해 SyntheKaia 스마트 컨트랙트를 배포해야 합니다. 배포된 컨트랙트 주소는 `.env.local` 파일에 추가해야 합니다.
+
+1.  **컨트랙트 저장소 클론**:
+    ```bash
+    git clone https://github.com/Jeongseup/2025-kaia-hackathon-synthekaia-contract.git
+    cd 2025-kaia-hackathon-synthekaia-contract
+    ```
+
+2.  **설정 및 배포**:
+    해당 저장소의 `README.md` 파일에 있는 지침에 따라 Foundry를 설치하고, 환경을 구성한 후 `make deploy` 명령어를 사용하여 컨트랙트를 배포합니다.
+
+3.  **환경 변수 업데이트**:
+    배포 후, 컨트랙트 프로젝트의 터미널 출력에서 결과로 나온 컨트랙트 주소들(`USDT_ADDRESS`, `ST_KAIA_ADDRESS`, `STKAIA_DELTA_NEUTRAL_VAULT_ADDRESS`)을 이 프론트엔드 프로젝트의 `.env.local` 파일에 있는 해당 변수들에 복사하여 붙여넣습니다.
+
+자세한 지침은 [컨트랙트 저장소](https://github.com/Jeongseup/2025-kaia-hackathon-synthekaia-contract)를 참조하세요.
 
 ### 개발 서버 실행
 

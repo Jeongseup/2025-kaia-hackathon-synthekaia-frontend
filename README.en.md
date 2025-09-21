@@ -53,20 +53,41 @@ Follow these instructions to set up and run the project locally.
 
 ### Configuration
 
-Create a `.env.local` file in the project root and add the necessary environment variables. You can copy the example below.
+Create a `.env.local` file by copying the `.env.sample` file. This file contains the environment variables required to run the application.
 
-```dotenv
-# .env.local
-
-# LIFF ID for your LINE Mini DApp
-NEXT_PUBLIC_LIFF_ID="YOUR_LIFF_ID"
-
-# Kaia Network Configuration
-NEXT_PUBLIC_KAIYA_RPC_URL="https://your-kaia-rpc-provider.com"
-NEXT_PUBLIC_MOCK_USDT_CONTRACT_ADDRESS="0x..."
-NEXT_PUBLIC_VAULT_CONTRACT_ADDRESS="0x..."
-
+```bash
+cp .env.sample .env.local
 ```
+
+Below is a description of each variable:
+
+-   `NODE_ENV`: The application environment (e.g., `local`, `development`, `production`).
+-   `BASE_API_URL`: The base URL for the backend API. For local development, this is typically `https://localhost:3000`.
+-   `FAUCETER_PRIVATE_KEY`: The private key of the account used to distribute testnet USDT from the faucet. **This should only be used in a local or test environment.**
+-   `NEXT_PUBLIC_CLIENT_ID`: The client ID for Kaia DApp Portal SDK.
+-   `NEXT_PUBLIC_CHAIN_ID`: The chain ID of the Kaia network (e.g., `1001` for Baobab testnet).
+-   `NEXT_PUBLIC_LIFF_ID`: The LIFF ID for your LINE Mini DApp.
+-   `NEXT_PUBLIC_MOCK_USDT_ADDRESS`: The contract address for the mock USDT token.
+-   `NEXT_PUBLIC_MOCK_STAKED_KAIA_ADDRESS`: The contract address for the mock stKAIA token.
+-   `NEXT_PUBLIC_STKAIA_DELTA_NEUTRAL_VAULT_ADDRESS`: The main vault contract address.
+
+#### Deploying Test Contracts
+
+For local development and testing, you need to deploy the SyntheKaia smart contracts. The deployed contract addresses must be added to your `.env.local` file.
+
+1.  **Clone the Contract Repository**:
+    ```bash
+    git clone https://github.com/Jeongseup/2025-kaia-hackathon-synthekaia-contract.git
+    cd 2025-kaia-hackathon-synthekaia-contract
+    ```
+
+2.  **Set Up and Deploy**:
+    Follow the instructions in the repository's `README.md` to install Foundry, configure your environment, and deploy the contracts using the `make deploy` command.
+
+3.  **Update Environment Variables**:
+    After deployment, copy the resulting contract addresses (`USDT_ADDRESS`, `ST_KAIA_ADDRESS`, `STKAIA_DELTA_NEUTRAL_VAULT_ADDRESS`) from the contract project's terminal output into the corresponding variables in this frontend project's `.env.local` file.
+
+For detailed instructions, please refer to the [contract repository](https://github.com/Jeongseup/2025-kaia-hackathon-synthekaia-contract).
 
 ### Running the Development Server
 
