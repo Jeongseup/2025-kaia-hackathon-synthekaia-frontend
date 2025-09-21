@@ -89,6 +89,16 @@ cp .env.sample .env.local
 
 자세한 지침은 [컨트랙트 저장소](https://github.com/Jeongseup/2025-kaia-hackathon-synthekaia-contract)를 참조하세요.
 
+### 데모 컨트랙트 주소
+
+빠른 테스트를 위해 Baobab 테스트넷에 배포된 다음 컨트랙트 주소를 사용할 수 있습니다.
+
+| 이름                                              | 주소                                       |
+| ------------------------------------------------- | ------------------------------------------ |
+| `NEXT_PUBLIC_MOCK_USDT_ADDRESS`                   | `0xeEB3432dc5bB3b6a774b97a125A498Cb528A640b` |
+| `NEXT_PUBLIC_MOCK_STAKED_KAIA_ADDRESS`            | `0xcEB9f9Be9ceE2704b4999fA512031125bC15F7ff` |
+| `NEXT_PUBLIC_STKAIA_DELTA_NEUTRAL_VAULT_ADDRESS`  | `0x1A2e956C4E342708688b878f07b469680487a3Ba` |
+
 ### 개발 서버 실행
 
 의존성이 설치되고 설정이 완료되면 개발 서버를 실행할 수 있습니다:
